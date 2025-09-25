@@ -9,13 +9,24 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout forked repo
         uses: actions/checkout@v3
 
-      - name: Sync upstream to fork
-        uses: repo-sync/github-sync@v2
-        with:
-          source_repo: https://github.com/2ai-lab/courses
-          source_branch: main
-          destination_branch: main
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Add upstream remote
+        run: git remote add upstream https://github.com/2ai-lab/courses
+
+      - name: Fetch upstream
+        run: git fetch upstream
+
+      - name: Merge upstream changes
+        run: git merge upstream/main --allow-unrelated-histories
+
+      - name: Push changes to fork
+        run: git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
