@@ -9,6 +9,9 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Sync upstream to fork
         uses: repo-sync/github-sync@v2
         with:
