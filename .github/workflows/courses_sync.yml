@@ -24,9 +24,9 @@ jobs:
         run: git fetch upstream main
 
       - name: Merge upstream/main into fork
-        run: git merge FETCH_HEAD --allow-unrelated-histories
+        run: git merge upstream/main --allow-unrelated-histories --no-edit
 
       - name: Push changes to fork
-        run: git push origin main
+        run: git push origin HEAD:main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
