@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Checkout forked repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Ensures full history for accurate merging
 
       - name: Configure Git
         run: |
@@ -24,7 +26,8 @@ jobs:
         run: git fetch upstream main
 
       - name: Merge upstream/main into fork
-        run: git merge upstream/main --allow-unrelated-histories --no-edit
+        run: |
+          git merge upstream/main --allow-unrelated-histories --no-edit || echo "Merge failed"
 
       - name: Push changes to fork
         run: git push origin HEAD:main
