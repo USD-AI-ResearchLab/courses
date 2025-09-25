@@ -1,1 +1,28 @@
+name: Daily Fork Sync
+
+on:
+  schedule:
+    - cron: '0 9 * * *'  # Runs every day at 9 AM UTC
+  workflow_dispatch:      # Allows manual triggering from the Actions tab
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Debug - Show remote info
+        run: |
+          git config --global user.email "sync-bot@example.com"
+          git config --global user.name "Sync Bot"
+          git remote -v
+
+      - name: Sync upstream to fork
+        uses: repo-sync/github-sync@v2
+        with:
+          source_repo: "2ai-lab/courses"
+          source_branch: "main"
+          destination_branch: "main"
+          github_token: ${{ secrets.PERSONAL_TOKEN }}
 
