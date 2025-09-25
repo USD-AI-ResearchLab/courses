@@ -22,14 +22,14 @@ jobs:
       - name: Add upstream remote
         run: git remote add upstream https://github.com/2ai-lab/courses
 
-      - name: Fetch upstream main branch
-        run: git fetch upstream main
+      - name: Fetch upstream master branch
+        run: git fetch upstream master
 
-      - name: Merge upstream/main into fork
+      - name: Merge upstream/master into fork
         run: |
-          git merge upstream/main --allow-unrelated-histories --no-edit || echo "Merge failed"
+          git merge upstream/master --allow-unrelated-histories --no-edit || echo "Merge failed"
 
       - name: Push changes to fork
-        run: git push origin HEAD:main
+        run: git push origin HEAD:master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
